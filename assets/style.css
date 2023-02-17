@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"); 
 
 :root{
-    --bg-main-color: #1b1b1b;
+    --bg-main-color: #212529;
     --txt-main-color: white;
-    --bg-second-color: #343434
+    --bg-second-color: #2b3035;
+    --border-main-color: #495057;
 
 }
 
@@ -22,13 +24,13 @@ header{
 }
 
 h1{
-    font-weight: 300;
+    font-weight: 400;
 }
 
 .main-array{
-    height:90vh;
     display: flex;
     align-items: center;
+    height: 90vh;
 }
 
 .table{
@@ -36,4 +38,62 @@ h1{
     background-color: var(--bg-second-color);
     border-radius: 5px;
     padding: 10px;
+    margin: 0;
+    border-color: var(--border-main-color);
+}
+
+th, td{
+    font-size: 12px;
+}
+
+tbody tr:last-child{
+    border-bottom-color: transparent !important;
+}
+
+thead tr:last-child{
+    border-bottom-width: 3px;
+}
+
+ul.pagination{
+    justify-content: flex-end;
+}
+
+ul.pagination li a{
+    font-size: 12px;
+}
+
+nav{
+    margin-top: 10px;
+}
+
+nav ul li a{
+    background-color: transparent !important;
+    border-color: var(--border-main-color) !important;
+}
+
+nav ul li a:hover{
+    color: var(--txt-main-color) !important;
+}
+
+nav ul li a{
+    background-color: var(--bg-second-color) !important;
+    color: var(--txt-main-color) !important;
+}
+
+nav ul li.pagination-active a{
+    color: var(--txt-main-color) !important;
+}
+
+.button-disabled a{
+    color: var(--border-main-color) !important;
+}
+
+.actions-icon{
+    display: flex;
+    justify-content: center;
+}
+
+.actions-icon i{
+    font-size: 24px;
+    cursor: pointer;
 }

@@ -1,31 +1,85 @@
 /**
  * GET Datas
- */
+ */ 
 var Airtable = require('airtable');
 var base = new Airtable({apiKey: 'pathQHsXpNDN4JtgB.0e80869ec90987a0483b542811680c3b219da90e62b292cbbbfe1045e0f26771'}).base('appGlizfVImuKWONS');
-
+let arrayGetClients = [];
+let snipper = document.querySelector('.spinner-border')
 
 base('Clients - mails').select({
-    // Selecting the first 3 records in Grid view:
-    maxRecords: 10,
+    maxRecords: 400,
+    //pageSize: 10,
     view: "Grid view"
 }).eachPage(function page(records, fetchNextPage) {
-    // This function (`page`) will get called for each page of records.
 
     records.forEach(function(record) {
-        // console.log('Retrieved', record.get('id'));
-        console.log(record.fields.id);
-        createLine(tableGetClients, record.fields.id);
+        arrayGetClients.push(record);
     });
-
-    // To fetch the next page of records, call `fetchNextPage`.
-    // If there are more records, `page` will get called again.
-    // If there are no more records, `done` will get called.
+        
     fetchNextPage();
+    console.log(arrayGetClients);
 
 }, function done(err) {
     if (err) { console.error(err); return; }
 });
+
+let min = 0;
+let max = 10;
+
+setTimeout(() => {
+    for (let i = min; i < max; i++) {
+        createLine(tableClients, 
+            arrayGetClients[i].fields['id'], 
+            arrayGetClients[i].fields['entreprise'], 
+            arrayGetClients[i].fields['Site url'],
+            arrayGetClients[i].fields['Envoi mail test']);
+    } 
+
+    nextButton.addEventListener('click', () => {
+        min += 10;
+        max += 10;
+        if (max >= arrayGetClients.length){
+            max = arrayGetClients.length;
+            min = arrayGetClients.length - 10;
+        }
+        previousButton.classList.remove('button-disabled');
+        tableClients.innerHTML = "";
+        for (let i = min; i < max; i++) {
+            createLine(tableClients, 
+                arrayGetClients[i].fields['id'], 
+                arrayGetClients[i].fields['entreprise'], 
+                arrayGetClients[i].fields['Site url'],
+                arrayGetClients[i].fields['Envoi mail test']);
+        } 
+    })
+
+    previousButton.addEventListener('click', () => {
+        min -= 10;
+        max -= 10;
+        if (min <= 0){
+            min = 0;
+            max = 10;
+            previousButton.classList.add('button-disabled');
+        }
+        tableClients.innerHTML = "";
+        for (let i = min; i < max; i++) {
+            createLine(tableClients, 
+                arrayGetClients[i].fields['id'], 
+                arrayGetClients[i].fields['entreprise'], 
+                arrayGetClients[i].fields['Site url'],
+                arrayGetClients[i].fields['Envoi mail test']);
+        } 
+    })
+
+    snipper.style.display = "none";
+
+}, 5000);
+
+
+
+
+
+
 
 
 
