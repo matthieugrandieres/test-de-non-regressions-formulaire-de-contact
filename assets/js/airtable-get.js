@@ -15,9 +15,8 @@ base('Clients - mails').select({
     records.forEach(function(record) {
         arrayGetClients.push(record);
     });
-        
+
     fetchNextPage();
-    console.log(arrayGetClients);
 
 }, function done(err) {
     if (err) { console.error(err); return; }
@@ -26,7 +25,30 @@ base('Clients - mails').select({
 let min = 0;
 let max = 10;
 
-setTimeout(() => {
+let timeStart= setInterval(() => {
+    console.log('interval');
+    if (arrayGetClients.length > 0) {
+        clearInterval(timeStart);
+        for (let i = min; i < max; i++) {
+            createLine(tableClients, 
+                arrayGetClients[i].fields['id'], 
+                arrayGetClients[i].fields['entreprise'], 
+                arrayGetClients[i].fields['Site url'],
+                arrayGetClients[i].fields['Envoi mail test']);
+        } 
+        snipper.style.display = "none";
+    }
+}, 500);
+
+nextButton.addEventListener('click', () => {
+    min += 10;
+    max += 10;
+    if (max >= arrayGetClients.length){
+        max = arrayGetClients.length;
+        min = arrayGetClients.length - 10;
+    }
+    previousButton.classList.remove('button-disabled');
+    tableClients.innerHTML = "";
     for (let i = min; i < max; i++) {
         createLine(tableClients, 
             arrayGetClients[i].fields['id'], 
@@ -34,46 +56,26 @@ setTimeout(() => {
             arrayGetClients[i].fields['Site url'],
             arrayGetClients[i].fields['Envoi mail test']);
     } 
+})
 
-    nextButton.addEventListener('click', () => {
-        min += 10;
-        max += 10;
-        if (max >= arrayGetClients.length){
-            max = arrayGetClients.length;
-            min = arrayGetClients.length - 10;
-        }
-        previousButton.classList.remove('button-disabled');
-        tableClients.innerHTML = "";
-        for (let i = min; i < max; i++) {
-            createLine(tableClients, 
-                arrayGetClients[i].fields['id'], 
-                arrayGetClients[i].fields['entreprise'], 
-                arrayGetClients[i].fields['Site url'],
-                arrayGetClients[i].fields['Envoi mail test']);
-        } 
-    })
+previousButton.addEventListener('click', () => {
+    min -= 10;
+    max -= 10;
+    if (min <= 0){
+        min = 0;
+        max = 10;
+        previousButton.classList.add('button-disabled');
+    }
+    tableClients.innerHTML = "";
+    for (let i = min; i < max; i++) {
+        createLine(tableClients, 
+            arrayGetClients[i].fields['id'], 
+            arrayGetClients[i].fields['entreprise'], 
+            arrayGetClients[i].fields['Site url'],
+            arrayGetClients[i].fields['Envoi mail test']);
+    } 
+})
 
-    previousButton.addEventListener('click', () => {
-        min -= 10;
-        max -= 10;
-        if (min <= 0){
-            min = 0;
-            max = 10;
-            previousButton.classList.add('button-disabled');
-        }
-        tableClients.innerHTML = "";
-        for (let i = min; i < max; i++) {
-            createLine(tableClients, 
-                arrayGetClients[i].fields['id'], 
-                arrayGetClients[i].fields['entreprise'], 
-                arrayGetClients[i].fields['Site url'],
-                arrayGetClients[i].fields['Envoi mail test']);
-        } 
-    })
-
-    snipper.style.display = "none";
-
-}, 5000);
 
 
 
