@@ -27,6 +27,7 @@ let max = 10;
 
 let timeStart= setInterval(() => {
     console.log('interval');
+    console.log(arrayGetClients)
     if (arrayGetClients.length > 0) {
         clearInterval(timeStart);
         for (let i = min; i < max; i++) {
